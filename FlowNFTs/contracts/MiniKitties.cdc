@@ -1,5 +1,6 @@
 // We're importing the contract from the default service account
 import NonFungibleToken from 0x631e88ae7f1d7c20;
+import MetadataViews from 0x631e88ae7f1d7c20;
 
 // Here we tell Cadence that our BottomShot contract implements the interface
 pub contract MiniKitties: NonFungibleToken {
@@ -14,7 +15,7 @@ pub contract MiniKitties: NonFungibleToken {
   pub let CollectionPublicPath: PublicPath
 
   // Our NFT resource conforms to the INFT interface
-  pub resource NFT: NonFungibleToken.INFT {
+  pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
     pub let id: UInt64
 
     pub let name: String
@@ -31,6 +32,26 @@ pub contract MiniKitties: NonFungibleToken {
         self.name = name
         self.description = description
         self.thumbnail = thumbnail
+    }
+
+    pub fun getViews(): [Type] {
+          return [
+            Type<MetadataViews.Display>()
+          ]
+        }
+
+    pub fun resolveView(_ view: Type): AnyStruct? {
+      switch view {
+        case Type<MetadataViews.Display>():
+          return MetadataViews.Display(
+            name: self.name,
+            description: self.description,
+            thumbnail: MetadataViews.HTTPFile(
+              url: self.thumbnail
+            )
+          )
+      }
+      return nil
     }
   }
 
@@ -81,6 +102,12 @@ pub contract MiniKitties: NonFungibleToken {
     pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
       return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
     }
+
+     pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
+          let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)!
+          let MiniKitties = nft as! &MiniKitties.NFT
+          return MiniKitties as &AnyResource{MetadataViews.Resolver}
+      }
 
     destroy() {
       destroy self.ownedNFTs
