@@ -4,6 +4,7 @@ export const mintNFT =
 import MiniKitties from 0x49e0ec5449cc6a07 
 // This remains the same 
 import NonFungibleToken from 0x631e88ae7f1d7c20
+import MetadataViews from 0x631e88ae7f1d7c20
 
 transaction(
   recipient: Address,
@@ -23,7 +24,7 @@ transaction(
     signer.save(<-collection, to: MiniKitties.CollectionStoragePath)
 
     // create a public capability for the collection
-    signer.link<&{NonFungibleToken.CollectionPublic}>(
+    signer.link<&{NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection}>(
       MiniKitties.CollectionPublicPath,
       target: MiniKitties.CollectionStoragePath
     )
