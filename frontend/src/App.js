@@ -23,7 +23,7 @@ function App() {
 
     const [ user, setUser ] = useState();
     const [ images, setImages ] = useState([])
-    const [network, setNetwork] = useState("");
+    const [ network, setNetwork ] = useState("");
 
     const logIn = () => {
         fcl.authenticate();
