@@ -12,11 +12,7 @@
 		},
 		"testnet-account": {
 			"address": "0x49e0ec5449cc6a07",
-			"key": {
-				"type": "file",
-				"location": "./my-testnet-account.key"
-			},
-
+			"key": "$PRIVATE_KEY"
 		}
 	},
 	"deployments": {
