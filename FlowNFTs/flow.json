@@ -9,6 +9,22 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "b3716bad2f4b4e06c91f5f82b350166bbe79d8eea9164648eb9acb31165a0f3a"
+		},
+		"testnet-account": {
+			"address": "0x49e0ec5449cc6a07",
+			"key": {
+				"type": "file",
+				"location": "./my-testnet-account.key"
+			},
+
 		}
+	},
+	"deployments": {
+		"testnet": {
+			"testnet-account": ["MiniKitties"]
+		}
+	},
+	"contracts": {
+		"MiniKitties": "./contracts/MiniKitties.cdc"
 	}
 }
