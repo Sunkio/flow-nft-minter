@@ -95,7 +95,7 @@ function App() {
             IDs = await fcl.query({
                 cadence: `${getIDs}`,
                 args: (arg, t) => [
-                    arg(user.addr, t.Address),
+                    arg(user.addr, types.Address),
                 ],
             })
         } catch(err) {
@@ -108,8 +108,8 @@ function App() {
                 const result = await fcl.query({
                     cadence: `${getMetadata}`,
                     args: (arg, t) => [
-                        arg(user.addr, t.Address),
-                        arg(IDs[i].toString(), t.UInt64),
+                        arg(user.addr, types.Address),
+                        arg(IDs[i].toString(), types.UInt64),
                     ],
                 })
                 // If the source is an IPFS link, remove the "ipfs://" prefix
@@ -158,9 +158,9 @@ function App() {
             const transactionId = await fcl.mutate({
                 cadence: `${mintNFT}`,
                 args: (arg, t) => [
-                    arg(user.addr, ts.Address), //address to which the NFT should be minted
-                    arg("MiniKitties # "+_id.toString(), t.String), // Name
-                    arg("MiniKitties on the blockchain", t.String), // Description
+                    arg(user.addr, types.Address), //address to which the NFT should be minted
+                    arg("MiniKitties # "+_id.toString(), types.String), // Name
+                    arg("MiniKitties on the blockchain", types.String), // Description
                     arg("ipfs://bafybeigmeykxsur4ya2p3nw6r7hz2kp3r2clhvzwiqaashhz5efhewkkgu/"+_id+".png", types.String),
                 ],
                 proposer: fcl.currentUser,
